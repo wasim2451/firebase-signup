@@ -14,7 +14,7 @@ function App() {
             setUser(null);
         }).catch((error) => {
             // An error happened.
-            alert("An error happened !")
+            alert("Something Wrong !");
         });
     }
     useEffect(() => {
