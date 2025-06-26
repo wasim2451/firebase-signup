@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useFirebase } from '../context/FirebaseContext'
 
 function Card() {
-    const { signup, pushtoDB, signGoogle , GoogleAuthProvider} = useFirebase();
+    const { signup,signin, pushtoDB, signGoogle , GoogleAuthProvider} = useFirebase();
     // console.log(pushtoDB);
 
     const [email, setEmail] = useState();
@@ -22,6 +22,16 @@ function Card() {
             pushtoDB(key, data);
             alert("Data pushed to DB !");
         }).catch((e) => {
+            alert(e.message);
+        });
+    }
+    const handleSignIn=()=>{
+        signin(email,pass)
+        .then((res)=>{
+            const user=res.user;
+            alert("You are Signed In !");
+        })
+        .catch((e)=>{
             alert(e.message);
         });
     }
@@ -52,6 +62,8 @@ function Card() {
                     />
                     <p></p>
                     <button onClick={handleSignUp}>Sign Up</button>
+                    <span>&nbsp;&nbsp;</span>
+                    <button onClick={handleSignIn}>Sign In</button>
                     <p>OR</p>
                     <button className='google-btn' onClick={handleSignInGoogle}><span>Sign up with Google</span><img src="https://cdn-icons-png.flaticon.com/128/2702/2702602.png" alt="" /></button>
                 </div>
