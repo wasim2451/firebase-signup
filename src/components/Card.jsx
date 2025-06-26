@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useFirebase } from '../context/FirebaseContext'
 
 function Card() {
-    const { signup, pushtoDB } = useFirebase();
+    const { signup, pushtoDB, signGoogle , GoogleAuthProvider} = useFirebase();
     // console.log(pushtoDB);
 
     const [email, setEmail] = useState();
@@ -16,7 +16,7 @@ function Card() {
             const data = {
                 name: email
             }
-            const sanitizedEmail = email.replace(".com",' ');
+            const sanitizedEmail = email.replace(".com", ' ');
             // Use the sanitized email as the key
             const key = sanitizedEmail;
             pushtoDB(key, data);
@@ -24,6 +24,19 @@ function Card() {
         }).catch((e) => {
             alert(e.message);
         });
+    }
+    const handleSignInGoogle = () => {
+        signGoogle()
+            .then((res) => {
+                const credential = GoogleAuthProvider.credentialFromResult(res);
+                console.log(credential);
+                const token = credential.accessToken;
+                console.log(token);
+                // The signed-in user info.
+                const user = res.user;
+                console.log(user);
+                
+            })
     }
     return (
         <>
@@ -40,7 +53,7 @@ function Card() {
                     <p></p>
                     <button onClick={handleSignUp}>Sign Up</button>
                     <p>OR</p>
-                    <button className='google-btn'><span>Sign up with Google</span><img src="https://cdn-icons-png.flaticon.com/128/2702/2702602.png" alt="" /></button>
+                    <button className='google-btn' onClick={handleSignInGoogle}><span>Sign up with Google</span><img src="https://cdn-icons-png.flaticon.com/128/2702/2702602.png" alt="" /></button>
                 </div>
             </div>
         </>
